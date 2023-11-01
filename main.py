@@ -1,27 +1,35 @@
+import os
+import asyncio
 import logging
 import replicate
-from telegram import Update
-from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
+from dotenv import load_dotenv
+from aiogram import Bot, Dispatcher, types
+from aiogram.filters import Command
+
+load_dotenv(dotenv_path=".env")
 
 # -- BOT -- #
+token: str = os.getenv("TOKEN")
 
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
-
-
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!")
+bot = Bot(token=token)
+dp = Dispatcher()
 
 
-if __name__ == '__main__':
-    application = ApplicationBuilder().token('6717943592:AAH94Y12ASClJwACDdF19YQSnYeQGJx0_0w').build()
+@dp.message
+async def echo(message: types.Message):
+    await bot.send_message(
+        chat_id=message.chat.id,
 
-    start_handler = CommandHandler('start', start)
-    application.add_handler(start_handler)
+    )
 
-    application.run_polling()
+
+async def main():
+    logging.basicConfig(level=logging.INFO)
+    await dp.start_polling(bot)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
 
 
 # -- LLM API -- #
