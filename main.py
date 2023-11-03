@@ -46,8 +46,9 @@ Please send code as plain text or a file.
 
 @dp.message()
 async def echo(message: types.Message):
+    processing_msg = await message.reply("Processing...")
     llm_response = await llm_prompt(message.text)
-    await message.reply(llm_response)
+    await bot.edit_message_text(chat_id=processing_msg.chat.id, message_id=processing_msg.message_id, text=llm_response)
 
 
 async def main():
