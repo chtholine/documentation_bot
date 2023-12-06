@@ -94,8 +94,8 @@ async def handle_message(message: types.Message):
         llm_response = await llm_prompt(message.text)
         await bot.edit_message_text(chat_id=processing_msg.chat.id, message_id=processing_msg.message_id,
                                     text=llm_response)
-    await bot.edit_message_text(chat_id=processing_msg.chat.id, message_id=processing_msg.message_id,
-                                text="Format is not supported.")
+    # await bot.edit_message_text(chat_id=processing_msg.chat.id, message_id=processing_msg.message_id,
+    #                             text="Format is not supported.")
 
 
 async def main():
